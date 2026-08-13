@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/fragmentos :: head('Acceso denegado')}"></head>
+<body class="bg-light">
+    <header th:replace="~{layout/fragmentos :: header}"></header>
+
+    <div class="container text-center py-5">
+        <div class="icono-circulo bg-info-subtle mx-auto mb-3" style="width:4.5rem;height:4.5rem;">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="9" stroke="#0dcaf0" stroke-width="1.6"/>
+                <path d="M9 9L15 15M15 9L9 15" stroke="#0dcaf0" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+        </div>
+        <h1 class="text-info-emphasis fw-bold">Error 403</h1>
+        <p class="lead text-secondary">Tu cuenta no cuenta con permisos para ver esta seccion.</p>
+        <a class="btn btn-info text-white px-4 mt-2" th:href="@{/}">Volver al panel principal</a>
+    </div>
+
+    <footer th:replace="~{layout/fragmentos :: footer}"></footer>
+</body>
+</html>

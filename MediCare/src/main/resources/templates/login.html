@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/fragmentos :: head('Iniciar sesion')}"></head>
+<body class="bg-light">
+    <header th:replace="~{layout/fragmentos :: header}"></header>
+
+    <div class="container">
+        <div class="row justify-content-center mt-5 mb-5">
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm overflow-hidden">
+                    <div class="row g-0">
+                        <div class="col-md-5 bg-info-subtle p-4 d-flex flex-column justify-content-center">
+                            <svg width="46" height="46" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="mb-3">
+                                <path d="M11 3H13V11H21V13H13V21H11V13H3V11H11V3Z" fill="#0dcaf0"/>
+                            </svg>
+                            <h4 class="text-info-emphasis fw-bold">Bienvenido de vuelta</h4>
+                            <p class="text-info-emphasis mb-0 small">
+                                Ingresa con tu correo institucional para consultar la agenda
+                                de citas y el estado de los usuarios.
+                            </p>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="card-body p-4">
+
+                                <div th:if="${param.error}" class="alert alert-danger franja-alerta" role="alert">
+                                    El correo o la contrasena no coinciden.
+                                </div>
+                                <div th:if="${param.logout}" class="alert alert-info franja-alerta" role="alert">
+                                    Saliste del sistema correctamente.
+                                </div>
+
+                                <form method="post" th:action="@{/login}">
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Correo electronico</label>
+                                        <input type="email" class="form-control" id="email" name="email" required autofocus/>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="password" class="form-label">Contrasena</label>
+                                        <input type="password" class="form-control" id="password" name="password" required/>
+                                    </div>
+                                    <button type="submit" class="btn btn-info text-white w-100">Entrar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer th:replace="~{layout/fragmentos :: footer}"></footer>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head th:replace="~{layout/fragmentos :: head('Citas Medicas')}"></head>
+<body class="bg-light">
+    <header th:replace="~{layout/fragmentos :: header}"></header>
+    <div th:replace="~{layout/fragmentos :: mensajes}"></div>
+
+    <div class="container my-4">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+            <div class="d-flex align-items-center gap-3">
+                <div class="icono-circulo bg-info-subtle">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 3L14.2 9.2L21 9.9L15.8 14.1L17.4 21L12 17.3L6.6 21L8.2 14.1L3 9.9L9.8 9.2L12 3Z" stroke="#0dcaf0" stroke-width="1.4" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="text-info-emphasis mb-0">Agenda de citas</h2>
+                    <p class="text-secondary small mb-0">Consultas medicas programadas en el centro de salud.</p>
+                </div>
+            </div>
+            <a sec:authorize="hasAnyRole('ADMIN','MEDICO')" class="btn btn-info text-white px-3" th:href="@{/cita/nuevo}">
+                Agendar cita
+            </a>
+        </div>
+
+        <div class="panel-datos bg-white shadow-sm">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-info">
+                    <tr>
+                        <th>ID</th>
+                        <th>Paciente</th>
+                        <th>Especialidad</th>
+                        <th>Fecha</th>
+                        <th>Costo</th>
+                        <th>Estado</th>
+                        <th class="text-end" sec:authorize="hasAnyRole('ADMIN','MEDICO')">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="cita : ${citas}">
+                        <td th:text="${cita.id}"></td>
+                        <td th:text="${cita.pacienteNombre}"></td>
+                        <td th:text="${cita.especialidad}"></td>
+                        <td th:text="${#temporals.format(cita.fecha, 'dd/MM/yyyy')}"></td>
+                        <td th:text="${'₡' + #numbers.formatDecimal(cita.costo, 1, 'COMMA', 0, 'POINT')}"></td>
+                        <td>
+                            <span th:class="${cita.activa} ? 'badge bg-success' : 'badge bg-secondary'"
+                                  th:text="${cita.activa} ? 'Activa' : 'Inactiva'"></span>
+                        </td>
+                        <td class="text-end" sec:authorize="hasAnyRole('ADMIN','MEDICO')">
+                            <a class="btn btn-sm btn-outline-info" th:href="@{/cita/editar/{id}(id=${cita.id})}">Modificar</a>
+                            <form class="d-inline" method="post" th:action="@{/cita/eliminar}"
+                                  onsubmit="return confirm('Se eliminara esta cita. ¿Continuar?');">
+                                <input type="hidden" name="id" th:value="${cita.id}"/>
+                                <button type="submit" class="btn btn-sm btn-outline-danger">Quitar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(citas)}">
+                        <td colspan="7" class="text-center text-secondary py-4">Aun no hay citas registradas.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <footer th:replace="~{layout/fragmentos :: footer}"></footer>
+</body>
+</html>
