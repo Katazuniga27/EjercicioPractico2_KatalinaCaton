@@ -2,156 +2,185 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 
-<!-- Fragmento: head comun para todas las paginas -->
-<head th:fragment="head(titulo)">
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title th:text="${titulo} + ' - MediCare'">MediCare</title>
-    <link href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet"/>
-    <script src="/webjars/jquery/3.7.1/jquery.min.js"></script>
-    <script src="/webjars/popper.js/2.11.7/umd/popper.min.js"></script>
-    <script src="/webjars/bootstrap/5.3.3/js/bootstrap.min.js"></script>
+    <!-- Fragmento: head comun para todas las paginas -->
+    <head th:fragment="head(titulo)">
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title th:text="${titulo} + ' - MediCare'">MediCare</title>
+        <link href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet"/>
+        <script src="/webjars/jquery/3.7.1/jquery.min.js"></script>
+        <script src="/webjars/popper.js/2.11.7/umd/popper.min.js"></script>
+        <script src="/webjars/bootstrap/5.3.3/js/bootstrap.min.js"></script>
 
-    <style>
-        :root{
-            --radio-suave: 18px;
-            --radio-pastilla: 50rem;
-        }
-        .marca-app{display:flex;align-items:center;gap:.55rem;font-weight:700;letter-spacing:.01em;}
-        .marca-app .marca-icono{
-            width:2.1rem;height:2.1rem;border-radius:50%;
-            display:flex;align-items:center;justify-content:center;
-            background:rgba(13,202,240,.18);
-        }
-        .nav-pastillas .nav-link{
-            border-radius:var(--radio-pastilla);
-            padding:.45rem 1rem;
-            transition:background-color .15s ease, color .15s ease;
-        }
-        .nav-pastillas .nav-link:hover{background-color:rgba(13,202,240,.15);}
-        .btn{border-radius:var(--radio-pastilla);}
-        .card{border-radius:var(--radio-suave);}
-        .panel-datos{border-radius:var(--radio-suave);overflow:hidden;}
-        .panel-datos table{margin-bottom:0;}
-        .panel-datos thead th{
-            text-transform:uppercase;
-            font-size:.72rem;
-            letter-spacing:.06em;
-            font-weight:700;
-        }
-        .icono-circulo{
-            width:3.2rem;height:3.2rem;border-radius:50%;
-            display:flex;align-items:center;justify-content:center;
-            flex-shrink:0;
-        }
-        .franja-alerta{border-radius:var(--radio-pastilla);}
-        footer.pie-app{border-radius:0;}
-    </style>
-</head>
+        <style>
+            :root{
+                --radio-suave: 18px;
+                --radio-pastilla: 50rem;
+            }
+            .marca-app{
+                display:flex;
+                align-items:center;
+                gap:.55rem;
+                font-weight:700;
+                letter-spacing:.01em;
+            }
+            .marca-app .marca-icono{
+                width:2.1rem;
+                height:2.1rem;
+                border-radius:50%;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                background:rgba(13,202,240,.18);
+            }
+            .nav-pastillas .nav-link{
+                border-radius:var(--radio-pastilla);
+                padding:.45rem 1rem;
+                transition:background-color .15s ease, color .15s ease;
+            }
+            .nav-pastillas .nav-link:hover{
+                background-color:rgba(13,202,240,.15);
+            }
+            .btn{
+                border-radius:var(--radio-pastilla);
+            }
+            .card{
+                border-radius:var(--radio-suave);
+            }
+            .panel-datos{
+                border-radius:var(--radio-suave);
+                overflow:hidden;
+            }
+            .panel-datos table{
+                margin-bottom:0;
+            }
+            .panel-datos thead th{
+                text-transform:uppercase;
+                font-size:.72rem;
+                letter-spacing:.06em;
+                font-weight:700;
+            }
+            .icono-circulo{
+                width:3.2rem;
+                height:3.2rem;
+                border-radius:50%;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                flex-shrink:0;
+            }
+            .franja-alerta{
+                border-radius:var(--radio-pastilla);
+            }
+            footer.pie-app{
+                border-radius:0;
+            }
+        </style>
+    </head>
 
-<body class="bg-light">
+    <body class="bg-light">
 
-    <!-- Fragmento: barra de navegacion -->
-    <header th:fragment="header">
-        <nav class="navbar navbar-expand-md sticky-top bg-white border-bottom shadow-sm py-2">
-            <div class="container">
-                <a class="navbar-brand marca-app" th:href="@{/}">
-                    <span class="marca-icono">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Fragmento: barra de navegacion -->
+        <header th:fragment="header">
+            <nav class="navbar navbar-expand-md sticky-top bg-white border-bottom shadow-sm py-2">
+                <div class="container">
+                    <a class="navbar-brand marca-app" th:href="@{/}">
+                        <span class="marca-icono">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M11 3H13V11H21V13H13V21H11V13H3V11H11V3Z" fill="#0dcaf0"/>
-                        </svg>
-                    </span>
-                    <span class="text-info-emphasis">MediCare</span>
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarMain">
-                    <ul class="navbar-nav nav-pastillas me-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/}">Panel principal</a>
-                        </li>
-                        <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-                            <a class="nav-link" th:href="@{/usuario/listado}">Usuarios</a>
-                        </li>
-                        <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-                            <a class="nav-link" th:href="@{/rol/listado}">Roles</a>
-                        </li>
-                        <li class="nav-item" sec:authorize="hasAnyRole('ADMIN','MEDICO','PACIENTE')">
-                            <a class="nav-link" th:href="@{/cita/listado}">Agenda de citas</a>
-                        </li>
-                        <li class="nav-item" sec:authorize="hasAnyRole('ADMIN','MEDICO','PACIENTE')">
-                            <a class="nav-link" th:href="@{/consultas/listado}">Reportes</a>
-                        </li>
+                            </svg>
+                        </span>
+                        <span class="text-info-emphasis">MediCare</span>
+                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarMain">
+                        <ul class="navbar-nav nav-pastillas me-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/}">Panel principal</a>
+                            </li>
+                            <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                                <a class="nav-link" th:href="@{/usuario/listado}">Usuarios</a>
+                            </li>
+                            <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                                <a class="nav-link" th:href="@{/rol/listado}">Roles</a>
+                            </li>
+                            <li class="nav-item" sec:authorize="hasAnyRole('ADMIN','MEDICO','PACIENTE')">
+                                <a class="nav-link" th:href="@{/cita/listado}">Agenda de citas</a>
+                            </li>
+                            <li class="nav-item" sec:authorize="hasAnyRole('ADMIN','MEDICO','PACIENTE')">
+                                <a class="nav-link" th:href="@{/consultas/listado}">Reportes</a>
+                            </li>
 
-                        <!-- Si NO está autenticado (es anónimo) -->
-                        <li class="nav-item" sec:authorize="!isAuthenticated()">
-                            <a class="nav-link" th:href="@{/login}">Iniciar sesión</a>
-                        </li>
+                            <!-- Si NO está autenticado (es anónimo) -->
+                            <li class="nav-item" sec:authorize="!isAuthenticated()">
+                                <a class="nav-link" th:href="@{/login}">Iniciar sesión</a>
+                            </li>
 
-                        <!-- Si SÍ está autenticado -->
-                        <li class="nav-item" sec:authorize="isAuthenticated()">
-                            <form th:action="@{/logout}" method="post" class="d-inline">
-                                <button type="submit" class="btn btn-link nav-link" style="border:none; cursor:pointer;">
-                                    Salir
-                                </button>
-                            </form>
-                        </li>
+                            <!-- Si SÍ está autenticado -->
+                            <li class="nav-item" sec:authorize="isAuthenticated()">
+                                <form th:action="@{/logout}" method="post" class="d-inline">
+                                    <button type="submit" class="btn btn-link nav-link" style="border:none; cursor:pointer;">
+                                        Salir
+                                    </button>
+                                </form>
+                            </li>
 
-                    </ul>
-                    <ul class="navbar-nav">
-                        <li class="nav-item" sec:authorize="!isAuthenticated()">
-                            <a class="btn btn-info text-white ms-2 px-3" th:href="@{/login}">Ingresar</a>
-                        </li>
-                        <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
-                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">
-                                <span sec:authentication="name"></span>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end">
-                                <li>
-                                    <form method="post" th:action="@{/logout}">
-                                        <button class="dropdown-item" type="submit">Cerrar sesion</button>
-                                    </form>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
+                        </ul>
+                        <ul class="navbar-nav">
+                            <li class="nav-item" sec:authorize="!isAuthenticated()">
+                                <a class="btn btn-info text-white ms-2 px-3" th:href="@{/login}">Ingresar</a>
+                            </li>
+                            <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
+                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">
+                                    <span sec:authentication="name"></span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li>
+                                        <form method="post" th:action="@{/logout}">
+                                            <button class="dropdown-item" type="submit">Cerrar sesion</button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
+            </nav>
+        </header>
+
+        <!-- Fragmento: mensajes de exito / error -->
+        <section th:fragment="mensajes" class="container mt-3">
+            <div th:if="${todoOk}" class="alert alert-success franja-alerta alert-dismissible fade show" role="alert">
+                <strong class="me-1">Listo:</strong>
+                <span th:text="${todoOk}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
-        </nav>
-    </header>
+            <div th:if="${error}" class="alert alert-danger franja-alerta alert-dismissible fade show" role="alert">
+                <strong class="me-1">Atencion:</strong>
+                <span th:text="${error}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        </section>
 
-    <!-- Fragmento: mensajes de exito / error -->
-    <section th:fragment="mensajes" class="container mt-3">
-        <div th:if="${todoOk}" class="alert alert-success franja-alerta alert-dismissible fade show" role="alert">
-            <strong class="me-1">Listo:</strong>
-            <span th:text="${todoOk}"></span>
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-        <div th:if="${error}" class="alert alert-danger franja-alerta alert-dismissible fade show" role="alert">
-            <strong class="me-1">Atencion:</strong>
-            <span th:text="${error}"></span>
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    </section>
-
-    <!-- Fragmento: pie de pagina -->
-    <footer th:fragment="footer" class="pie-app bg-info-subtle border-top border-info-subtle py-4 mt-5">
-        <div class="container pie-app">
-            <div>
-                <div class="marca-app justify-content-start">
-                    <span class="marca-icono">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Fragmento: pie de pagina -->
+        <footer th:fragment="footer" class="pie-app bg-info-subtle border-top border-info-subtle py-4 mt-5">
+            <div class="container pie-app">
+                <div>
+                    <div class="marca-app justify-content-start">
+                        <span class="marca-icono">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M11 3H13V11H21V13H13V21H11V13H3V11H11V3Z" fill="#0dcaf0"/>
-                        </svg>
-                    </span>
-                    <span class="text-info-emphasis">MediCare</span>
+                            </svg>
+                        </span>
+                        <span class="text-info-emphasis">MediCare</span>
+                    </div>
+                    <p class="mb-0 text-info-emphasis small mt-1">Coordinacion de citas y expedientes para centros de salud.</p>
                 </div>
-                <p class="mb-0 text-info-emphasis small mt-1">Coordinacion de citas y expedientes para centros de salud.</p>
+                <p class="mb-0 text-info-emphasis small align-self-end">&copy; 2026 MediCare.</p>
             </div>
-            <p class="mb-0 text-info-emphasis small align-self-end">&copy; 2026 MediCare. Proyecto academico.</p>
-        </div>
-    </footer>
+        </footer>
 
-</body>
+    </body>
 </html>

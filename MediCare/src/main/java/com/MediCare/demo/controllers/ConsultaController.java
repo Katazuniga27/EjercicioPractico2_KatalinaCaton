@@ -32,21 +32,18 @@ public class ConsultaController {
         model.addAttribute("totalCitasActivas", citaMedicaService.contarCitasActivas());
         model.addAttribute("promedioPorEspecialidad", citaMedicaService.promedioCostoPorEspecialidad());
 
-        // Consulta 1: por estado (activas/inactivas)
         if (estado != null) {
             model.addAttribute("resultadoEstado", citaMedicaService.getCitasPorEstado(estado));
         } else {
             model.addAttribute("resultadoEstado", Collections.emptyList());
         }
 
-        // Consulta 2: por rango de fechas
         if (desde != null && hasta != null) {
             model.addAttribute("resultadoFechas", citaMedicaService.getCitasPorRangoFechas(desde, hasta));
         } else {
             model.addAttribute("resultadoFechas", Collections.emptyList());
         }
 
-        // Consulta 3: por especialidad (coincidencia parcial)
         if (especialidad != null && !especialidad.isBlank()) {
             model.addAttribute("resultadoEspecialidad",
                     citaMedicaService.getCitasPorEspecialidad(especialidad));

@@ -23,7 +23,6 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    // Redirige a cada usuario a una pagina distinta segun su rol al iniciar sesion
     @Bean
     public AuthenticationSuccessHandler successHandler() {
         return (HttpServletRequest request, HttpServletResponse response, Authentication authentication) -> {

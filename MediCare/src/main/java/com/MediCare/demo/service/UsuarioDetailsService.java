@@ -10,11 +10,6 @@ import org.springframework.stereotype.Service;
 import com.MediCare.demo.domain.Usuario;
 import com.MediCare.demo.repository.UsuarioRepository;
 
-/**
- * Servicio que Spring Security usa para autenticar. Se inicia sesion con el
- * email del usuario, y se genera el rol de seguridad (ROLE_ADMIN, ROLE_MEDICO
- * o ROLE_PACIENTE) a partir del rol asignado en la tabla usuario.
- */
 @Service("userDetailsService")
 public class UsuarioDetailsService implements UserDetailsService {
 

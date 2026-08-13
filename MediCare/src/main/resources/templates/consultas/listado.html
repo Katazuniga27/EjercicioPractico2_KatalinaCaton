@@ -1,173 +1,173 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{layout/fragmentos :: head('Consultas Avanzadas')}"></head>
-<body class="bg-light">
-    <header th:replace="~{layout/fragmentos :: header}"></header>
-    <div th:replace="~{layout/fragmentos :: mensajes}"></div>
+    <head th:replace="~{layout/fragmentos :: head('Consultas Avanzadas')}"></head>
+    <body class="bg-light">
+        <header th:replace="~{layout/fragmentos :: header}"></header>
+        <div th:replace="~{layout/fragmentos :: mensajes}"></div>
 
-    <div class="container my-4">
-        <div class="d-flex align-items-center gap-3 mb-4">
-            <div class="icono-circulo bg-info-subtle">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <div class="container my-4">
+            <div class="d-flex align-items-center gap-3 mb-4">
+                <div class="icono-circulo bg-info-subtle">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M4 20V10M12 20V4M20 20V13" stroke="#0dcaf0" stroke-width="1.8" stroke-linecap="round"/>
-                </svg>
-            </div>
-            <div>
-                <h2 class="text-info-emphasis mb-0">Reportes de citas</h2>
-                <p class="text-secondary small mb-0">Filtra y revisa la informacion de las citas registradas.</p>
-            </div>
-        </div>
-
-        <!-- Resumen general -->
-        <div class="row g-3 mb-4">
-            <div class="col-md-4">
-                <div class="card border-0 shadow-sm text-center h-100">
-                    <div class="card-body">
-                        <p class="text-secondary mb-1 small">Citas activas en total</p>
-                        <h3 class="text-info-emphasis mb-0" th:text="${totalCitasActivas}"></h3>
-                    </div>
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="text-info-emphasis mb-0">Reportes de citas</h2>
+                    <p class="text-secondary small mb-0">Filtra y revisa la informacion de las citas registradas.</p>
                 </div>
             </div>
-            <div class="col-md-8">
-                <div class="card border-0 shadow-sm h-100">
-                    <div class="card-body">
-                        <p class="text-secondary mb-2 small">Costo promedio por especialidad (citas activas)</p>
-                        <ul class="list-unstyled mb-0" th:if="${not #lists.isEmpty(promedioPorEspecialidad)}">
-                            <li th:each="fila : ${promedioPorEspecialidad}" class="d-flex justify-content-between border-bottom py-1">
-                                <span th:text="${fila[0]}"></span>
-                                <span class="fw-semibold" th:text="${'₡' + #numbers.formatDecimal(fila[1], 1, 'COMMA', 2, 'POINT')}"></span>
-                            </li>
-                        </ul>
-                        <p th:if="${#lists.isEmpty(promedioPorEspecialidad)}" class="text-secondary mb-0">
-                            Todavia no hay datos suficientes para este calculo.
-                        </p>
+
+            <!-- Resumen general -->
+            <div class="row g-3 mb-4">
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm text-center h-100">
+                        <div class="card-body">
+                            <p class="text-secondary mb-1 small">Citas activas en total</p>
+                            <h3 class="text-info-emphasis mb-0" th:text="${totalCitasActivas}"></h3>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Consultas filtradas en acordeon -->
-        <div class="accordion" id="acordeonConsultas">
-
-            <!-- Consulta 1: por estado -->
-            <div class="accordion-item border-0 shadow-sm mb-3">
-                <h2 class="accordion-header">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#consulta1">
-                        Filtrar por estado (activas / inactivas)
-                    </button>
-                </h2>
-                <div id="consulta1" class="accordion-collapse collapse show" data-bs-parent="#acordeonConsultas">
-                    <div class="accordion-body">
-                        <form class="row g-2 mb-3" method="get" th:action="@{/consultas/listado}">
-                            <div class="col-auto">
-                                <select class="form-select" name="estado">
-                                    <option value="">-- Seleccione --</option>
-                                    <option value="true" th:selected="${estadoSeleccionado} == true">Activas</option>
-                                    <option value="false" th:selected="${estadoSeleccionado} == false">Inactivas</option>
-                                </select>
-                            </div>
-                            <div class="col-auto">
-                                <button type="submit" class="btn btn-info text-white">Filtrar</button>
-                            </div>
-                        </form>
-                        <div class="panel-datos" th:if="${not #lists.isEmpty(resultadoEstado)}">
-                            <table class="table table-sm table-hover mb-0">
-                                <thead class="table-info">
-                                    <tr><th>Paciente</th><th>Especialidad</th><th>Fecha</th><th>Costo</th></tr>
-                                </thead>
-                                <tbody>
-                                    <tr th:each="c : ${resultadoEstado}">
-                                        <td th:text="${c.pacienteNombre}"></td>
-                                        <td th:text="${c.especialidad}"></td>
-                                        <td th:text="${#temporals.format(c.fecha, 'dd/MM/yyyy')}"></td>
-                                        <td th:text="${'₡' + #numbers.formatDecimal(c.costo, 1, 'COMMA', 0, 'POINT')}"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                <div class="col-md-8">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body">
+                            <p class="text-secondary mb-2 small">Costo promedio por especialidad (citas activas)</p>
+                            <ul class="list-unstyled mb-0" th:if="${not #lists.isEmpty(promedioPorEspecialidad)}">
+                                <li th:each="fila : ${promedioPorEspecialidad}" class="d-flex justify-content-between border-bottom py-1">
+                                    <span th:text="${fila[0]}"></span>
+                                    <span class="fw-semibold" th:text="${'₡' + #numbers.formatDecimal(fila[1], 1, 'COMMA', 2, 'POINT')}"></span>
+                                </li>
+                            </ul>
+                            <p th:if="${#lists.isEmpty(promedioPorEspecialidad)}" class="text-secondary mb-0">
+                                Todavia no hay datos suficientes para este calculo.
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Consulta 2: por rango de fechas -->
-            <div class="accordion-item border-0 shadow-sm mb-3">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#consulta2">
-                        Filtrar por rango de fechas
-                    </button>
-                </h2>
-                <div id="consulta2" class="accordion-collapse collapse" data-bs-parent="#acordeonConsultas">
-                    <div class="accordion-body">
-                        <form class="row g-2 mb-3" method="get" th:action="@{/consultas/listado}">
-                            <div class="col-auto">
-                                <input type="date" class="form-control" name="desde" th:value="${desdeSeleccionado}"/>
+            <!-- Consultas filtradas en acordeon -->
+            <div class="accordion" id="acordeonConsultas">
+
+                <!-- Consulta 1: por estado -->
+                <div class="accordion-item border-0 shadow-sm mb-3">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#consulta1">
+                            Filtrar por estado (activas / inactivas)
+                        </button>
+                    </h2>
+                    <div id="consulta1" class="accordion-collapse collapse show" data-bs-parent="#acordeonConsultas">
+                        <div class="accordion-body">
+                            <form class="row g-2 mb-3" method="get" th:action="@{/consultas/listado}">
+                                <div class="col-auto">
+                                    <select class="form-select" name="estado">
+                                        <option value="">-- Seleccione --</option>
+                                        <option value="true" th:selected="${estadoSeleccionado} == true">Activas</option>
+                                        <option value="false" th:selected="${estadoSeleccionado} == false">Inactivas</option>
+                                    </select>
+                                </div>
+                                <div class="col-auto">
+                                    <button type="submit" class="btn btn-info text-white">Filtrar</button>
+                                </div>
+                            </form>
+                            <div class="panel-datos" th:if="${not #lists.isEmpty(resultadoEstado)}">
+                                <table class="table table-sm table-hover mb-0">
+                                    <thead class="table-info">
+                                        <tr><th>Paciente</th><th>Especialidad</th><th>Fecha</th><th>Costo</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="c : ${resultadoEstado}">
+                                            <td th:text="${c.pacienteNombre}"></td>
+                                            <td th:text="${c.especialidad}"></td>
+                                            <td th:text="${#temporals.format(c.fecha, 'dd/MM/yyyy')}"></td>
+                                            <td th:text="${'₡' + #numbers.formatDecimal(c.costo, 1, 'COMMA', 0, 'POINT')}"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                            <div class="col-auto">
-                                <input type="date" class="form-control" name="hasta" th:value="${hastaSeleccionado}"/>
-                            </div>
-                            <div class="col-auto">
-                                <button type="submit" class="btn btn-info text-white">Filtrar</button>
-                            </div>
-                        </form>
-                        <div class="panel-datos" th:if="${not #lists.isEmpty(resultadoFechas)}">
-                            <table class="table table-sm table-hover mb-0">
-                                <thead class="table-info">
-                                    <tr><th>Paciente</th><th>Especialidad</th><th>Fecha</th><th>Costo</th></tr>
-                                </thead>
-                                <tbody>
-                                    <tr th:each="c : ${resultadoFechas}">
-                                        <td th:text="${c.pacienteNombre}"></td>
-                                        <td th:text="${c.especialidad}"></td>
-                                        <td th:text="${#temporals.format(c.fecha, 'dd/MM/yyyy')}"></td>
-                                        <td th:text="${'₡' + #numbers.formatDecimal(c.costo, 1, 'COMMA', 0, 'POINT')}"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Consulta 3: por especialidad -->
-            <div class="accordion-item border-0 shadow-sm mb-3">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#consulta3">
-                        Buscar por especialidad
-                    </button>
-                </h2>
-                <div id="consulta3" class="accordion-collapse collapse" data-bs-parent="#acordeonConsultas">
-                    <div class="accordion-body">
-                        <form class="row g-2 mb-3" method="get" th:action="@{/consultas/listado}">
-                            <div class="col-auto">
-                                <input type="text" class="form-control" name="especialidad" placeholder="Ej: Cardio"
-                                       th:value="${especialidadSeleccionada}"/>
+                <!-- Consulta 2: por rango de fechas -->
+                <div class="accordion-item border-0 shadow-sm mb-3">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#consulta2">
+                            Filtrar por rango de fechas
+                        </button>
+                    </h2>
+                    <div id="consulta2" class="accordion-collapse collapse" data-bs-parent="#acordeonConsultas">
+                        <div class="accordion-body">
+                            <form class="row g-2 mb-3" method="get" th:action="@{/consultas/listado}">
+                                <div class="col-auto">
+                                    <input type="date" class="form-control" name="desde" th:value="${desdeSeleccionado}"/>
+                                </div>
+                                <div class="col-auto">
+                                    <input type="date" class="form-control" name="hasta" th:value="${hastaSeleccionado}"/>
+                                </div>
+                                <div class="col-auto">
+                                    <button type="submit" class="btn btn-info text-white">Filtrar</button>
+                                </div>
+                            </form>
+                            <div class="panel-datos" th:if="${not #lists.isEmpty(resultadoFechas)}">
+                                <table class="table table-sm table-hover mb-0">
+                                    <thead class="table-info">
+                                        <tr><th>Paciente</th><th>Especialidad</th><th>Fecha</th><th>Costo</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="c : ${resultadoFechas}">
+                                            <td th:text="${c.pacienteNombre}"></td>
+                                            <td th:text="${c.especialidad}"></td>
+                                            <td th:text="${#temporals.format(c.fecha, 'dd/MM/yyyy')}"></td>
+                                            <td th:text="${'₡' + #numbers.formatDecimal(c.costo, 1, 'COMMA', 0, 'POINT')}"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                            <div class="col-auto">
-                                <button type="submit" class="btn btn-info text-white">Filtrar</button>
-                            </div>
-                        </form>
-                        <div class="panel-datos" th:if="${not #lists.isEmpty(resultadoEspecialidad)}">
-                            <table class="table table-sm table-hover mb-0">
-                                <thead class="table-info">
-                                    <tr><th>Paciente</th><th>Especialidad</th><th>Fecha</th><th>Costo</th></tr>
-                                </thead>
-                                <tbody>
-                                    <tr th:each="c : ${resultadoEspecialidad}">
-                                        <td th:text="${c.pacienteNombre}"></td>
-                                        <td th:text="${c.especialidad}"></td>
-                                        <td th:text="${#temporals.format(c.fecha, 'dd/MM/yyyy')}"></td>
-                                        <td th:text="${'₡' + #numbers.formatDecimal(c.costo, 1, 'COMMA', 0, 'POINT')}"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
                         </div>
                     </div>
                 </div>
-            </div>
 
+                <!-- Consulta 3: por especialidad -->
+                <div class="accordion-item border-0 shadow-sm mb-3">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#consulta3">
+                            Buscar por especialidad
+                        </button>
+                    </h2>
+                    <div id="consulta3" class="accordion-collapse collapse" data-bs-parent="#acordeonConsultas">
+                        <div class="accordion-body">
+                            <form class="row g-2 mb-3" method="get" th:action="@{/consultas/listado}">
+                                <div class="col-auto">
+                                    <input type="text" class="form-control" name="especialidad" placeholder="Ej: Cardio"
+                                           th:value="${especialidadSeleccionada}"/>
+                                </div>
+                                <div class="col-auto">
+                                    <button type="submit" class="btn btn-info text-white">Filtrar</button>
+                                </div>
+                            </form>
+                            <div class="panel-datos" th:if="${not #lists.isEmpty(resultadoEspecialidad)}">
+                                <table class="table table-sm table-hover mb-0">
+                                    <thead class="table-info">
+                                        <tr><th>Paciente</th><th>Especialidad</th><th>Fecha</th><th>Costo</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="c : ${resultadoEspecialidad}">
+                                            <td th:text="${c.pacienteNombre}"></td>
+                                            <td th:text="${c.especialidad}"></td>
+                                            <td th:text="${#temporals.format(c.fecha, 'dd/MM/yyyy')}"></td>
+                                            <td th:text="${'₡' + #numbers.formatDecimal(c.costo, 1, 'COMMA', 0, 'POINT')}"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
-    </div>
 
-    <footer th:replace="~{layout/fragmentos :: footer}"></footer>
-</body>
+        <footer th:replace="~{layout/fragmentos :: footer}"></footer>
+    </body>
 </html>
